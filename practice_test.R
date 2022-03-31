@@ -2,7 +2,7 @@
 # Store the ufo data into a data frame called ufo_data.
 
 # Reading csv file 
-ufo_data <- read.csv("ufo.csv")
+ufo_data <- read.csv("ufo.csv", na = "")
 ufo_data
 # Show the structure of the UFO
 str(ufo_data)
@@ -51,22 +51,24 @@ md.pattern(ufo_data)
 
 install.packages("VIM")
 library(VIM)
-ufo_missing_value <- aggr(ufo_data, prop = TRUE,numbers = FALSE)
+ufo_missing_value <- aggr(ufo_data, prop = TRUE, numbers = FALSE)
 ufo_missing_value
 summary(ufo_missing_value)
 # Q7
-new_ufo_data <- na.omit(ufo_missing_value)
+new_ufo_data <- na.omit(ufo_data)
 new_ufo_data
-ufo_updated_missing_value <- aggr(ufo_data, prop = TRUE,numbers = FALSE)
+install.packages("VIM")
+library(VIM)
+ufo_updated_missing_value <- aggr(new_ufo_data, prop = TRUE, numbers = FALSE)
 summary(ufo_updated_missing_value)
 # Q8
 # Sort the UFO data frame firstly by shape and then by city
-attach(ufo_data)
-ufo_data <- ufo_data[order(shape),]
+attach(new_ufo_data)
+ufo_data <- new_ufo_data[order(shape),]
 ufo_data <- ufo_data[order(city),]
 sorted_ufo_data <- subset(ufo_data, select = c(datetime, city, country, shape))
 head(sorted_ufo_data, 15)
-detach(ufo_data)
+detach(new_ufo_data)
 # Q9
 ufo_gb_disk <- subset(ufo_data,country=="gb"&shape == "disk")
 nrow(ufo_gb_disk)
